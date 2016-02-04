@@ -87,7 +87,11 @@ public class ConsoleLogToWorkspacePublisher extends Recorder {
                 // AbstractBuild.writeWholeLogTo is not available in older
                 // versions of jenkins.
                 //build.writeWholeLogTo(os);
-                writeLogFile(build, os, blockOnAllOutput);
+                try {
+                    writeLogFile(build, os, blockOnAllOutput);
+                } finally {
+                    os.close();
+                }
             }
         } catch (IOException e) {
             build.setResult(Result.UNSTABLE);
